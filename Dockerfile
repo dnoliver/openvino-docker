@@ -37,9 +37,13 @@ RUN mkdir -p $TEMP_DIR && cd $TEMP_DIR && \
 RUN cd $INSTALL_DIR/deployment_tools/model_optimizer/install_prerequisites && \
     ./install_prerequisites.sh
 
+RUN /bin/bash -c "source $INSTALL_DIR/bin/setupvars.sh" && \
+    $INSTALL_DIR/deployment_tools/tools/deployment_manager/deployment_manager.py --targets cpu --output_dir /tmp --archive_name openvino_deploy_package
+
 FROM ubuntu:18.04 AS openvino-runtime
 
-COPY --from=openvino-dev /opt/intel /opt/intel
+COPY --from=openvino-dev /tmp/openvino_deploy_package.tar.gz /tmp
+RUN mkdir -p /opt/intel && tar xzf /tmp/openvino_deploy_package.tar.gz -C /opt/intel
 
 RUN echo "source /opt/intel/openvino/bin/setupvars.sh" >> /root/.bashrc
 
