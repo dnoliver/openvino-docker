@@ -11,5 +11,13 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 script:
+  # Build all images
   - docker-compose build
-  - docker-compose run sampleapp-runtime /root/run.sh
+  # Show image sizes
+  - docker images
+  # Show classification_sample_async dependencies
+  - docker-compose run --rm sampleapp-runtime ldd /root/inference_engine_samples_build/intel64/Release/classification_sample_async
+  # Show size of files included in /opt/intel/
+  - docker-compose run --rm sampleapp-runtime du -a /opt/intel/ | sort -nr
+  # Run classification_sample_async
+  - docker-compose run --rm sampleapp-runtime /root/run.sh
