@@ -10,8 +10,8 @@ This Dockerfile will provide you with a base environment to run your inference m
 
 The firt thing you need is to download the OpenVINO(tm) toolkit.
 
-You can register and download it from the following link (Linux version):
-[https://software.intel.com/en-us/openvino-toolkit/choose-download/free-download-linux](https://software.intel.com/en-us/openvino-toolkit/choose-download/free-download-linux)
+You can register and download it from the [Intel Developer Zone - Intel Distribution of OpenVINO
+Toolkit](https://software.intel.com/en-us/openvino-toolkit/choose-download/free-download-linux) portal (Linux version)
 
 Or use wget to get the package directly (Latest version is 2019 R3.1 by the time writing this guide)
 
@@ -45,7 +45,8 @@ docker run -ti openvino /bin/bash
 
 ### Use the image in another container
 
-You can use this Docker image as a base image and use it in multiple Dockerfiles. An example of how to do this has been provided:
+You can use this Docker image as a base image and use it in multiple Dockerfiles. An example of how to do this has been
+provided:
 
 Move to sample-app directory and build the image
 
@@ -56,7 +57,8 @@ docker build -t openvino-app .
 
 ### Run the the container with X enabled (Linux)
 
-Additionally, for running a sample application that displays an image, you need to share the host display to be accessed from guest Docker container.
+Additionally, for running a sample application that displays an image, you need to share the host display to be accessed
+from guest Docker container.
 
 The following flags needs to be added to the docker run command:
 

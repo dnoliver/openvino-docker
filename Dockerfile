@@ -1,6 +1,6 @@
 FROM ubuntu:18.04 AS openvino-dev
 
-ARG DOWNLOAD_LINK=http://registrationcenter-download.intel.com/akdlm/irc_nas/15944/l_openvino_toolkit_p_2019.3.334.tgz
+ARG DOWNLOAD_LINK=http://registrationcenter-download.intel.com/akdlm/irc_nas/16057/l_openvino_toolkit_p_2019.3.334.tgz
 
 ARG INSTALL_DIR=/opt/intel/openvino
 
@@ -36,10 +36,12 @@ RUN mkdir -p $TEMP_DIR && cd $TEMP_DIR && \
 # Model Optimizer prerequisites
 RUN cd $INSTALL_DIR/deployment_tools/model_optimizer/install_prerequisites && \
     ./install_prerequisites.sh
-# Create minimal deployment package (no OpenCV)
+
+# Create minimal deployment package with accelerators and cpu support
+# NOTE: OpenCV is not included
 RUN /bin/bash -c "source $INSTALL_DIR/bin/setupvars.sh" && \
     $INSTALL_DIR/deployment_tools/tools/deployment_manager/deployment_manager.py \
-        --targets cpu --output_dir /tmp --archive_name openvino_deploy_package
+        --targets cpu gpu vpu gna hddl --output_dir /tmp --archive_name openvino_deploy_package
 
 ## Minimal base runtime image
 FROM ubuntu:18.04 AS openvino-runtime
