@@ -1,6 +1,6 @@
 FROM ubuntu:18.04 AS openvino-dev
 
-ARG DOWNLOAD_LINK=http://registrationcenter-download.intel.com/akdlm/irc_nas/16057/l_openvino_toolkit_p_2019.3.334.tgz
+ARG DOWNLOAD_LINK=http://registrationcenter-download.intel.com/akdlm/irc_nas/16057/l_openvino_toolkit_p_2019.3.376.tgz
 
 ARG INSTALL_DIR=/opt/intel/openvino
 
@@ -26,8 +26,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Download and install OpenVINO
 RUN mkdir -p $TEMP_DIR && cd $TEMP_DIR && \
     wget -c $DOWNLOAD_LINK && \
-    tar xf l_openvino_toolkit_p_2019.3.334.tgz && \
-    cd l_openvino_toolkit_p_2019.3.334 && \
+    tar xf l_openvino_toolkit_p_2019.3.376.tgz && \
+    cd l_openvino_toolkit_p_2019.3.376 && \
     ./install_openvino_dependencies.sh && \
     sed -i 's/decline/accept/g' silent.cfg && \
     ./install.sh --silent silent.cfg && \
