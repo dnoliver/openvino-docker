@@ -15,8 +15,8 @@ script:
   - docker-compose build
   # Show image sizes
   - docker images
-  # Show classification_sample_async dependencies
-  - docker-compose run --rm sampleapp-runtime ldd /root/inference_engine_samples_build/intel64/Release/classification_sample_async
+  # Show application dependencies
+  - docker-compose run --rm sampleapp-runtime ldd ldd /root/inference_engine_demos_build/intel64/Release/security_barrier_camera_demo
   # Show size of files included in /opt/intel/
   - docker-compose run --rm sampleapp-runtime du -a /opt/intel/ | sort -nr
   # Run classification_sample_async
