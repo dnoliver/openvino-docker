@@ -20,4 +20,4 @@ script:
   # Show size of files included in /opt/intel/
   - docker-compose run --rm sampleapp-runtime du -a /opt/intel/ | sort -nr
   # Run classification_sample_async
-  - docker-compose run --rm sampleapp-runtime /root/run.sh
+  - docker-compose run --rm sampleapp-runtime /home/openvino/run.sh
