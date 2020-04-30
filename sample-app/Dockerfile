@@ -1,38 +1,37 @@
 ## Development Build 
-FROM openvino-dev:latest as sampleapp-dev
+FROM openvino/ubuntu18_dev:2020.2 as sampleapp-dev
 
 USER root
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     sudo && \
-    rm -rf /var/lib/apt/lists/* && \
-    pip3 install networkx==2.3
+    rm -rf /var/lib/apt/lists/*
 
 RUN cd /opt/intel/openvino/deployment_tools/demo && \
     ./demo_security_barrier_camera.sh -d CPU -sample-options -no_show
 
 ## Runtime Build
-FROM openvino-runtime:latest as sampleapp-runtime
+FROM openvino/ubuntu18_runtime:2020.2 as sampleapp-runtime
 
 # Copy Release Build
-COPY --from=sampleapp-dev /root/inference_engine_demos_build/intel64/Release/ \
-    /root/inference_engine_demos_build/intel64/Release/
+COPY --chown=openvino --from=sampleapp-dev /root/inference_engine_demos_build/intel64/Release/ \
+    /home/openvino/inference_engine_demos_build/intel64/Release/
 
 # Copy Models
-COPY --from=sampleapp-dev /root/openvino_models/ir/intel/license-plate-recognition-barrier-0001/FP16 \
-    /root/openvino_models/ir/intel/license-plate-recognition-barrier-0001/FP16
-COPY --from=sampleapp-dev /root/openvino_models/ir/intel/vehicle-attributes-recognition-barrier-0039/FP16 \
-    /root/openvino_models/ir/intel/vehicle-attributes-recognition-barrier-0039/FP16
-COPY --from=sampleapp-dev /root/openvino_models/ir/intel/vehicle-license-plate-detection-barrier-0106/FP16 \
-    /root/openvino_models/ir/intel/vehicle-license-plate-detection-barrier-0106/FP16
+COPY --chown=openvino --from=sampleapp-dev /root/openvino_models/ir/intel/license-plate-recognition-barrier-0001/FP16 \
+    /home/openvino/openvino_models/ir/intel/license-plate-recognition-barrier-0001/FP16
+COPY --chown=openvino --from=sampleapp-dev /root/openvino_models/ir/intel/vehicle-attributes-recognition-barrier-0039/FP16 \
+    /home/openvino/openvino_models/ir/intel/vehicle-attributes-recognition-barrier-0039/FP16
+COPY --chown=openvino --from=sampleapp-dev /root/openvino_models/ir/intel/vehicle-license-plate-detection-barrier-0106/FP16 \
+    /home/openvino/openvino_models/ir/intel/vehicle-license-plate-detection-barrier-0106/FP16
 
 # Copy Images
-COPY --from=sampleapp-dev /opt/intel/openvino/deployment_tools/demo/car_1.bmp \
+COPY --chown=openvino --from=sampleapp-dev /opt/intel/openvino/deployment_tools/demo/car_1.bmp \
     /opt/intel/openvino/deployment_tools/demo/car_1.bmp
 
 # Copy Dependencies
 # ldd /root/inference_engine_demos_build/intel64/Release/security_barrier_camera_demo | awk '{print $3}' | sort
-COPY --from=sampleapp-dev \
+COPY --chown=openvino --from=sampleapp-dev \
     /lib/x86_64-linux-gnu/libblkid.so.1 \
     /lib/x86_64-linux-gnu/libbsd.so.0 \
     /lib/x86_64-linux-gnu/libc.so.6 \
@@ -109,8 +108,8 @@ COPY --from=sampleapp-dev \
     /usr/lib/x86_64-linux-gnu/libxcb-shm.so.0 \
     /usr/lib/x86_64-linux-gnu/libxcb.so.1 \
     /usr/lib/x86_64-linux-gnu/libxkbcommon.so.0 \
-    /root/inference_engine_demos_build/intel64/Release/lib/
+    /home/openvino/inference_engine_demos_build/intel64/Release/lib/
 
-ADD ./run.sh /root/run.sh
+COPY --chown=openvino ./run.sh /home/openvino/run.sh
 
-CMD ["/root/run.sh"]
+CMD ["/home/openvino/run.sh"]
