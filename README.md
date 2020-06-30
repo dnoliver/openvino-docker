@@ -7,7 +7,7 @@ This repository provides a base development and runtime environment to run infer
 ## Building the Docker Image
 
 ```sh
-docker-compose build .
+docker-compose build
 ```
 
 The following images should be present:
@@ -42,7 +42,7 @@ You can directly run the sample OpenVINO application:
 To run a container based on this image:
 
 ```sh
-docker-compose run --rm sampleapp-runtime:latest /root/run.sh
+docker-compose run --rm sampleapp-runtime:latest /home/openvino/run.sh
 ```
 
 The inference output should be visible in the terminal:
@@ -124,3 +124,9 @@ CMD ["/myapp"]
 ```
 
 An example of this process is present in the `sample-app` folder
+
+## Limits
+
+```bash
+docker update --cpu-shares 1024 --memory 100m  --memory-swap 100m  --pids-limit 1024 sampleapp-runtime
+```
