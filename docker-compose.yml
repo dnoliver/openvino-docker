@@ -43,6 +43,7 @@ services:
     security_opt:
       - no-new-privileges
       - label=level:s0:c1,c2
+      - apparmor:docker-default
     read_only: true
     restart: "on-failure:5"
     healthcheck:
