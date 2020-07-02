@@ -14,8 +14,6 @@ RUN cd /opt/intel/openvino/deployment_tools/demo && \
 ## Runtime Build
 FROM openvino-runtime:latest as sampleapp-runtime
 
-RUN useradd -d /home/openvino -m -s /bin/bash openvino
-
 # Copy Release Build
 COPY --chown=openvino --from=sampleapp-dev /root/inference_engine_demos_build/intel64/Release/ \
     /home/openvino/inference_engine_demos_build/intel64/Release/
@@ -115,6 +113,7 @@ COPY --chown=openvino --from=sampleapp-dev \
 
 HEALTHCHECK --interval=5m --timeout=3s CMD true || exit 1
 
+# 4.8 Ensure setuid and setgid permissions are removed
 RUN find / -perm /6000 -type f -exec chmod a-s {} \; || true
 
 COPY ./run.sh /home/openvino/run.sh

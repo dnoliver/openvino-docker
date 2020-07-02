@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -x
-
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/openvino/inference_engine_demos_build/intel64/Release/lib/
 source /opt/intel/openvino/bin/setupvars.sh && \
     /home/openvino/inference_engine_demos_build/intel64/Release/security_barrier_camera_demo \
@@ -12,4 +10,5 @@ source /opt/intel/openvino/bin/setupvars.sh && \
     -m /home/openvino/openvino_models/ir/intel/vehicle-license-plate-detection-barrier-0106/FP16/vehicle-license-plate-detection-barrier-0106.xml \
     -m_lpr /home/openvino/openvino_models/ir/intel/license-plate-recognition-barrier-0001/FP16/license-plate-recognition-barrier-0001.xml \
     -m_va /home/openvino/openvino_models/ir/intel/vehicle-attributes-recognition-barrier-0039/FP16/vehicle-attributes-recognition-barrier-0039.xml \
+    -r \
     -no_show
