@@ -24,7 +24,6 @@ script:
   # Run Docker Bench Security
   - >
     docker-compose up -d sampleapp-runtime &&
-    docker update --cpu-shares 1024 --memory 200m --memory-swap 200m --pids-limit 1024 sampleapp-runtime &&
     git clone https://github.com/docker/docker-bench-security.git &&
     cd docker-bench-security &&
     ./docker-bench-security.sh
