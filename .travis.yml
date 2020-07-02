@@ -21,3 +21,9 @@ script:
   - docker-compose run --rm sampleapp-runtime du -a /opt/intel/ | sort -nr
   # Run classification_sample_async
   - docker-compose run --rm sampleapp-runtime /home/openvino/run.sh
+  # Run Docker Bench Security
+  - >
+    docker-compose up -d sampleapp-runtime &&
+    git clone https://github.com/docker/docker-bench-security.git &&
+    cd docker-bench-security &&
+    ./docker-bench-security.sh
